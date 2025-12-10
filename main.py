@@ -8,6 +8,10 @@ import numpy as np
 
 
 def chebyshev_nodes(n: int = 10) -> np.ndarray | None:
+    result = []
+    for k in range(n+1):
+        result.append(np.cos(k * np.pi / n))
+    return result
     """Funkcja generująca wektor węzłów Czebyszewa drugiego rodzaju (n,) 
     i sortująca wynik od najmniejszego do największego węzła.
 
@@ -22,6 +26,13 @@ def chebyshev_nodes(n: int = 10) -> np.ndarray | None:
 
 
 def bar_cheb_weights(n: int = 10) -> np.ndarray | None:
+    result = []
+    for j in range(n+1):
+        if j == 0 or j == n:
+            delta_j = 0.5
+        else:
+            delta_j = 1
+        result.append((-1)**j * delta_j)
     """Funkcja tworząca wektor wag dla węzłów Czebyszewa wymiaru (n,).
 
     Args:
@@ -37,6 +48,14 @@ def bar_cheb_weights(n: int = 10) -> np.ndarray | None:
 def barycentric_inte(
     xi: np.ndarray, yi: np.ndarray, wi: np.ndarray, x: np.ndarray
 ) -> np.ndarray | None:
+    l = np.ones(n)
+    L = []
+    for k in range(n):
+        for node in xi:
+            l[k] *= (x[k] - node)
+    for k in range(n):
+        L.append(yi[k] * wi[k] / (x[k] - xi[k]))
+    return 
     """Funkcja przeprowadza interpolację metodą barycentryczną dla zadanych 
     węzłów xi i wartości funkcji interpolowanej yi używając wag wi. Zwraca 
     wyliczone wartości funkcji interpolującej dla argumentów x w postaci 
